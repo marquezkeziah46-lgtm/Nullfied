@@ -1,0 +1,33 @@
+{
+  "prefix": "/",
+
+  "admins": [
+    "61594616562680",
+    "61594981323552"
+  ],
+
+  "bot": {
+    "listenEvents": true,
+    "selfListen": false,
+    "online": true
+  },
+
+  "traffic": {
+    "maxBurst": 5,
+    "burstWindow": 15000,
+    "burstCooldown": 15000,
+    "duplicateWindow": 5000,
+    "minReplyInterval": 5000,
+    "maxQueuePerThread": 3
+  },
+
+  "typing": {
+    "enabled": true,
+    "minDelay": 900,
+    "maxDelay": 2200
+  },
+
+  "server": {
+    "port": 10000
+  }
+}

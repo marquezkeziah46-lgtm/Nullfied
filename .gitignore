@@ -1,0 +1,6 @@
+node_modules/
+npm-debug.log*
+.env
+data/appstate.json
+data/*.secret
+.DS_Store

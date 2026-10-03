@@ -1,0 +1,18 @@
+services:
+  - type: web
+    name: nullfied-bot
+    runtime: node
+    plan: free
+
+    buildCommand: npm install
+    startCommand: npm start
+
+    envVars:
+      - key: NODE_ENV
+        value: production
+
+      - key: APPSTATE_JSON
+        sync: false
+
+      - key: BOT_PORT
+        value: "10000"

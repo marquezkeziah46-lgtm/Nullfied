@@ -1,0 +1,461 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+
+  <meta
+    name="viewport"
+    content="width=device-width, initial-scale=1.0"
+  >
+
+  <title>NULLFIED BOT</title>
+
+  <link
+    rel="stylesheet"
+    href="/styles.css"
+  >
+</head>
+
+<body>
+
+  <div class="top">
+    <div>
+      <div class="brand">
+        NULLFIED
+      </div>
+
+      <div class="sub">
+        Messenger Control Center
+      </div>
+    </div>
+
+    <div id="badge" class="offline">
+      OFFLINE
+    </div>
+  </div>
+
+  <main>
+
+    <section class="hero">
+      <div>
+        <span class="eyebrow">
+          SYSTEM
+        </span>
+
+        <h1>
+          NULLFIED BOT
+        </h1>
+
+        <p>
+          biar-fca / Render
+        </p>
+      </div>
+
+      <div class="uptime">
+        <span>UPTIME</span>
+        <strong id="uptime">
+          0s
+        </strong>
+      </div>
+    </section>
+
+    <section class="grid">
+
+      <div class="card">
+        <span>BOT</span>
+        <strong id="bot">
+          OFFLINE
+        </strong>
+      </div>
+
+      <div class="card">
+        <span>MESSAGES</span>
+        <strong id="received">
+          0
+        </strong>
+      </div>
+
+      <div class="card">
+        <span>SENT</span>
+        <strong id="sent">
+          0
+        </strong>
+      </div>
+
+      <div class="card">
+        <span>COMMANDS</span>
+        <strong id="commands">
+          0
+        </strong>
+      </div>
+
+      <div class="card">
+        <span>DUPLICATES</span>
+        <strong id="duplicates">
+          0
+        </strong>
+      </div>
+
+      <div class="card">
+        <span>ERRORS</span>
+        <strong id="errors">
+          0
+        </strong>
+      </div>
+
+    </section>
+
+    <section class="panel">
+
+      <div class="panel-head">
+        <div>
+          <span class="eyebrow">
+            HUNTING
+          </span>
+
+          <h2>
+            Hunting Control
+          </h2>
+        </div>
+
+        <div id="huntingStatus">
+          UNKNOWN
+        </div>
+      </div>
+
+      <div class="actions">
+        <button
+          onclick="hunting('on')"
+        >
+          HUNTING ON
+        </button>
+
+        <button
+          onclick="hunting('off')"
+        >
+          HUNTING OFF
+        </button>
+
+        <button
+          onclick="restartBot()"
+        >
+          RESTART BOT
+        </button>
+      </div>
+
+    </section>
+
+    <section class="panel">
+
+      <div class="panel-head">
+        <div>
+          <span class="eyebrow">
+            COMMANDS
+          </span>
+
+          <h2>
+            Loaded Commands
+          </h2>
+        </div>
+      </div>
+
+      <div
+        id="commandList"
+        class="command-list"
+      >
+        Loading...
+      </div>
+
+    </section>
+
+    <section class="panel">
+
+      <div class="panel-head">
+        <div>
+          <span class="eyebrow">
+            SYSTEM
+          </span>
+
+          <h2>
+            Runtime
+          </h2>
+        </div>
+      </div>
+
+      <pre id="runtime">Loading...</pre>
+
+    </section>
+
+  </main>
+
+<script>
+
+async function getJSON(url, options = {}) {
+  const response =
+    await fetch(url, options);
+
+  return response.json();
+}
+
+function setText(id, value) {
+  const element =
+    document.getElementById(id);
+
+  if (element) {
+    element.textContent =
+      value ?? "-";
+  }
+}
+
+async function refresh() {
+
+  try {
+
+    const data =
+      await getJSON(
+        "/api/status"
+      );
+
+    const status =
+      data.status || {};
+
+    const online =
+      Boolean(
+        status.online &&
+        status.loggedIn
+      );
+
+    const badge =
+      document.getElementById(
+        "badge"
+      );
+
+    badge.textContent =
+      online
+        ? "ONLINE"
+        : "OFFLINE";
+
+    badge.className =
+      online
+        ? "online"
+        : "offline";
+
+    setText(
+      "bot",
+      online
+        ? "ONLINE"
+        : "OFFLINE"
+    );
+
+    setText(
+      "uptime",
+      data.uptime
+    );
+
+    setText(
+      "received",
+      status.messagesReceived || 0
+    );
+
+    setText(
+      "sent",
+      status.messagesSent || 0
+    );
+
+    setText(
+      "commands",
+      status.commandsLoaded || 0
+    );
+
+    setText(
+      "duplicates",
+      status.duplicatesSuppressed || 0
+    );
+
+    setText(
+      "errors",
+      status.errors || 0
+    );
+
+    const hunting =
+      status.hunting || {};
+
+    const values =
+      Object.values(hunting);
+
+    const active =
+      values.some(
+        item =>
+          item === true ||
+          item?.enabled === true
+      );
+
+    setText(
+      "huntingStatus",
+      values.length
+        ? active
+          ? "ON"
+          : "OFF"
+        : "UNKNOWN"
+    );
+
+    setText(
+      "runtime",
+      JSON.stringify(
+        {
+          botID:
+            status.botID || null,
+
+          worker:
+            status.worker || false,
+
+          loggedIn:
+            status.loggedIn || false,
+
+          lastMessageAt:
+            status.lastMessageAt || null,
+
+          lastSendAt:
+            status.lastSendAt || null,
+
+          cooldownSuppressed:
+            status.cooldownSuppressed || 0,
+
+          queueSuppressed:
+            status.queueSuppressed || 0,
+
+          lastError:
+            status.lastError || null
+        },
+        null,
+        2
+      )
+    );
+
+  } catch (error) {
+
+    setText(
+      "bot",
+      "SERVER ERROR"
+    );
+
+  }
+
+}
+
+async function refreshCommands() {
+
+  try {
+
+    const data =
+      await getJSON(
+        "/api/commands"
+      );
+
+    const container =
+      document.getElementById(
+        "commandList"
+      );
+
+    if (
+      !data.commands ||
+      !data.commands.length
+    ) {
+      container.textContent =
+        "No commands loaded.";
+      return;
+    }
+
+    container.innerHTML =
+      data.commands
+        .map(
+          name =>
+            `<span>/${name}</span>`
+        )
+        .join("");
+
+  } catch {}
+
+}
+
+async function hunting(action) {
+
+  try {
+
+    const result =
+      await getJSON(
+        "/api/hunting",
+        {
+          method: "POST",
+
+          headers: {
+            "Content-Type":
+              "application/json"
+          },
+
+          body:
+            JSON.stringify({
+              action
+            })
+        }
+      );
+
+    alert(
+      result.message ||
+      "Request sent."
+    );
+
+  } catch {
+
+    alert(
+      "Unable to contact server."
+    );
+
+  }
+
+}
+
+async function restartBot() {
+
+  try {
+
+    const result =
+      await getJSON(
+        "/api/restart",
+        {
+          method: "POST"
+        }
+      );
+
+    alert(
+      result.message ||
+      "Restart requested."
+    );
+
+  } catch {
+
+    alert(
+      "Restart request failed."
+    );
+
+  }
+
+}
+
+refresh();
+refreshCommands();
+
+setInterval(
+  refresh,
+  3000
+);
+
+setInterval(
+  refreshCommands,
+  10000
+);
+
+</script>
+
+</body>
+  </html>

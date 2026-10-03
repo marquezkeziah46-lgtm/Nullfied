@@ -1,0 +1,351 @@
+* {
+  box-sizing: border-box;
+}
+
+html {
+  background: #07090c;
+}
+
+body {
+  margin: 0;
+  min-height: 100vh;
+
+  background:
+    radial-gradient(
+      circle at top,
+      #151a22 0,
+      #07090c 45%,
+      #050608 100%
+    );
+
+  color: #e7edf5;
+
+  font-family:
+    "Courier New",
+    monospace;
+}
+
+.top {
+  width: 100%;
+  padding: 22px 7%;
+
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+
+  border-bottom:
+    1px solid #1d252f;
+
+  background: rgba(
+    5,
+    7,
+    10,
+    .8
+  );
+}
+
+.brand {
+  font-size: 24px;
+  font-weight: 900;
+  letter-spacing: 5px;
+}
+
+.sub {
+  margin-top: 4px;
+
+  color: #718096;
+
+  font-size: 11px;
+  letter-spacing: 2px;
+}
+
+.online,
+.offline {
+  padding: 8px 12px;
+
+  border: 1px solid #303a48;
+
+  font-size: 11px;
+  letter-spacing: 2px;
+}
+
+.online {
+  color: #8ef0b0;
+  border-color: #285c3e;
+}
+
+.offline {
+  color: #ff8d8d;
+  border-color: #633434;
+}
+
+main {
+  width: min(
+    1100px,
+    92%
+  );
+
+  margin: 35px auto 80px;
+}
+
+.hero {
+  display: flex;
+  align-items: end;
+  justify-content: space-between;
+
+  padding: 30px;
+
+  border:
+    1px solid #202a35;
+
+  background:
+    rgba(
+      12,
+      16,
+      22,
+      .8
+    );
+}
+
+.eyebrow {
+  color: #718096;
+
+  font-size: 10px;
+  letter-spacing: 3px;
+}
+
+h1 {
+  margin: 8px 0;
+
+  font-size: clamp(
+    34px,
+    7vw,
+    76px
+  );
+
+  letter-spacing: 5px;
+}
+
+h2 {
+  margin: 7px 0 0;
+
+  font-size: 20px;
+}
+
+.hero p {
+  margin: 0;
+  color: #8b98a8;
+}
+
+.uptime {
+  text-align: right;
+}
+
+.uptime span {
+  display: block;
+
+  color: #718096;
+
+  font-size: 10px;
+  letter-spacing: 2px;
+}
+
+.uptime strong {
+  display: block;
+
+  margin-top: 7px;
+
+  font-size: 18px;
+}
+
+.grid {
+  display: grid;
+
+  grid-template-columns:
+    repeat(
+      3,
+      1fr
+    );
+
+  gap: 12px;
+
+  margin-top: 12px;
+}
+
+.card,
+.panel {
+  border:
+    1px solid #202a35;
+
+  background:
+    rgba(
+      12,
+      16,
+      22,
+      .75
+    );
+}
+
+.card {
+  padding: 20px;
+}
+
+.card span {
+  display: block;
+
+  color: #687586;
+
+  font-size: 10px;
+  letter-spacing: 2px;
+}
+
+.card strong {
+  display: block;
+
+  margin-top: 9px;
+
+  font-size: 25px;
+}
+
+.panel {
+  margin-top: 12px;
+  padding: 24px;
+}
+
+.panel-head {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+
+  gap: 20px;
+}
+
+#huntingStatus {
+  padding: 7px 10px;
+
+  border:
+    1px solid #303a48;
+
+  font-size: 10px;
+  letter-spacing: 2px;
+}
+
+.actions {
+  display: flex;
+
+  flex-wrap: wrap;
+
+  gap: 10px;
+
+  margin-top: 22px;
+}
+
+button {
+  padding: 11px 14px;
+
+  border:
+    1px solid #364252;
+
+  background: #10161e;
+
+  color: #dce5ef;
+
+  font-family:
+    "Courier New",
+    monospace;
+
+  cursor: pointer;
+}
+
+button:hover {
+  background: #18212c;
+}
+
+.command-list {
+  display: flex;
+
+  flex-wrap: wrap;
+
+  gap: 8px;
+
+  margin-top: 20px;
+}
+
+.command-list span {
+  padding: 8px 10px;
+
+  border:
+    1px solid #283340;
+
+  background: #0b1016;
+
+  color: #a9b7c7;
+
+  font-size: 11px;
+}
+
+pre {
+  overflow-x: auto;
+
+  margin: 20px 0 0;
+
+  padding: 15px;
+
+  border:
+    1px solid #1e2833;
+
+  background: #070a0e;
+
+  color: #8fa0b2;
+
+  font-size: 11px;
+
+  white-space: pre-wrap;
+}
+
+@media (
+  max-width: 700px
+) {
+
+  .top {
+    padding: 18px 5%;
+  }
+
+  main {
+    width: 94%;
+    margin-top: 20px;
+  }
+
+  .hero {
+    display: block;
+  }
+
+  .uptime {
+    margin-top: 20px;
+    text-align: left;
+  }
+
+  .grid {
+    grid-template-columns:
+      repeat(
+        2,
+        1fr
+      );
+  }
+
+  h1 {
+    font-size: 38px;
+  }
+
+}
+
+@media (
+  max-width: 430px
+) {
+
+  .grid {
+    grid-template-columns:
+      1fr;
+  }
+
+}
